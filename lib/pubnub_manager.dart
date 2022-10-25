@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:pubnub/logging.dart';
 import 'package:pubnub/pubnub.dart';
 
 class PubNubManager {
@@ -41,13 +40,6 @@ class PubNubManager {
       );
 
       await _pubnub!.channelGroups.addChannels(groupName, <String>{'me'});
-
-      final logger = StreamLogger.root('myApp', logLevel: Level.all);
-
-      logger.stream.listen((record) {
-        print(
-            '>>>>>>>>>> [${record.time}] ${Level.getName(record.level)}: ${record.message}');
-      });
 
       _isInit = true;
     } catch (e) {

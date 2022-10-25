@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:pubnub/logging.dart';
 import 'package:pubnub_sample/chat_list.dart';
 import 'package:pubnub_sample/pubnub_manager.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final StreamLogger logger = StreamLogger.root('myApp', logLevel: Level.all);
+
+  logger.stream.listen((record) {
+    print(
+        '>>>>>>>>>> [${record.time}] ${Level.getName(record.level)}: ${record.message}');
+  });
+
   await PubNubManager().init();
-  runApp(const MyApp());
+
+  provideLogger(logger, () async {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
